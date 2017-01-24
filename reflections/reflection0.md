@@ -1,0 +1,6 @@
+
+	Our team formed around an interest in security in C code. Atleast for the initial project we all thought it would not only be incredibly informative but also really cool and challenging to attempt to execute a real life example of security vulnerabilities in C. Since this was our process for team formation we all had very similar learning goals so building the spring backlog was mostly focused around what we needed to do to successfully jailbreak an old iOS phone.
+
+	In terms of deciding who our scrum master to be, we essentially used personal preference. I did not want to be the scrum master, Sawyer was ambivalent and Deniz was somewhat interested in doing so. He felt it would help with his development of Scrum knowledge. 
+
+	My biggest fear moving forward is that any exploit used to root in iPhone will be much more complex than we are capable of executing on in a few sprints. While a significant amount of learning will be had regardless of whether or not we actually can jail break an iPhone it would be very personally fulfilling to do so. Since we will still meet personal learning goals regardless of the execution of jailbreak I am not incredibly concerned about this.
