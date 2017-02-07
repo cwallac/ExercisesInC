@@ -5,18 +5,37 @@
 
 1) Give an example of a feature common in interpreted languages that is rare in compiled languages.
 
+Dyanamic typing
+
 2) Name two advantages of static typing over dynamic typing.
+
+More errors are caught by the compiler
+
+Easier to debug, you don't have to worry that you are accidentally adding an integer to a boolean
 
 3) Give an example of a static semantic error.
 
+myArray[3.14]
+
 4) What are two reasons you might want to turn off code optimization?
 
+Debugging might become harder and bugs might become less obvious. 
+If the program is large it might take significantly longer to compile
+
 5) When you run `gcc` with `-S`, why might the results look different on different computers?
+
+-S compiles C into assembly code which is architecture dependant. If a computer is running an x64
+processor it will require different assembly than one running x86
 
 6) If you spell a variable name wrong, or if you spell a function name wrong, 
 the error messages you get might look very different.  Why?
 
+Functions that are not defined will be caught by the linker. A variable name that is spelled
+incorrectly will appear as the syntax error and will be caught by the compiler
+
 7) What is a segmentation fault?
+A segmentation fault occurs when a program attempts to access memory that it is not allowed
+to have access too.
 
 
 ## Chapter 2
@@ -26,14 +45,29 @@ the error messages you get might look very different.  Why?
 
 1) Give a real-world example of virtualization (ideally not one of the ones in the book).
 
+Amazon EC2 nodes. While not explictly thought of as a VM, they are in reality VMs on large servers
+in Amazon data centers
+
 2) What is the difference between a program and a process?
+
+A process is the actual execution of a program. A program is a set of instructions to be executed
+a process is an a OS concept than can execute any arbitrary program.
 
 3) What is the primary purpose of the process abstraction?  What illusion does the process abstraction create?
 
+Processes allow you to interact with network hardware as if you are the only thing interact with it.
+In reality there are several processes trying to interact with the hardware at the same time, but
+processes abstract this away so to the programmer it appears like it is only them interacting. This abstraction
+also applies to virtual memory. The illusion created is that the single process the program is running
+is the only process being run on the computer. 
+
 4) What is the kernel?
+
+THe kernal is the part of the OS responsible for core capabilities
 
 5) What is a daemon?
  
+ A daemon is a process that runs in the background and provides core OS functionality.
 
 ## Chapter 3
 
@@ -41,31 +75,72 @@ the error messages you get might look very different.  Why?
 ### Virtual memory
 
 1) The Georgian alphabet has 33 letters.  How many bit are needed to specify a letter?
+2^6. 
 
 2) In the UTF-16 character encoding, the binary representation of a character can take up to 32 bits.  
 Ignoring the details of the encoding scheme, how many different characters can be represented?
+4294967296
 
 3) What is the difference between "memory" and "storage" as defined in Think OS?
+Storage refers to HDD space. Memory refers to RAM.
 
 4) What is the difference between a GiB and a GB?  What is the percentage difference in their sizes?
+A GiB is a gibibyte which is 2^30 bytes. a GB is a gigbyte and is 10^9 bytes. x-bibytes always is a
+base 2.
 
 5) How does the virtual memory system help isolate processes from each other?
+Each process gets allocated its own chunk of physical memory. It can refer to these addresses by 
+virtual memory addresses. There are no virtual memory addresses that map to physical addresses of 
+the memory used by a different process so they can not interfere with each other.
 
 6) Why do you think the stack and the heap are usually located at opposite ends of the address space?
+The stack grows down and the heap grows up. Putting them at opposite ends allows the most memory to be 
+utilized by the program
 
 7) What Python data structure would you use to represent a sparse array?
+dictionary
 
 8) What is a context switch?
+A context switch occurs when an OS interrupts a running process, pauses it and switches to 
+another process
 
 In this directory, you should find a subdirectory named `aspace` that contains `aspace.c`.  Run it on your computer and compare your results to mine.
-  
-1) Add a second call to `malloc` and check whether the heap on your system grows up (toward larger addresses).  
 
-2) Add a function that prints the address of a local variable, and check whether the stack grows down.  
+My results:
+Address of main is   0x   10515be90
+Address of global is 0x   10515c020
+Address of local is  0x7fff5aaa4a68
+Address of p is      0x7fc13fc027f0
+
+Allen's results:
+Address of main is   0x      40057c
+Address of global is 0x      60104c
+Address of local is  0x7fffd26139c4
+Address of p is      0x     1c3b010
+  
+1) Add a second call to `malloc` and check whether the heap on your system grows up (toward larger addresses). 
+
+Address of main is   0x   10ad8ae60
+Address of global is 0x   10ad8b020
+Address of local is  0x7fff54e75a68
+Address of p is      0x7f85fdc027f0
+Address of q is      0x7f85fdc02870
+
+The heap is growing up towards larger address, q was allocated after p.
+
+2) Add a function that prints the address of a local variable, and check whether the stack grows down. 
+Address of main is 0x1059abe20
+Address of global is 0x1059ac020
+Address of local is 0x7fff5a254a68
+Address of local2 is 0x7fff5a254a64
+Address of p is 0x7fa6694027f0
+Address of q is 0x7fa669402870
+
+The stack is growing down towards smaller numbers 
 
 3) Choose a random number between 1 and 32, and allocate two chunks with that size.  
 How much space is there between them?  Hint: Google knows how to subtract hexadecimal numbers.
-
+There are 8 bytes between them.
 
 ## Chapter 4
 
