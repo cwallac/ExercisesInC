@@ -43,11 +43,15 @@ void method2() {
 }
 
 int main() {
-	
-	method1();
 	method2();
-
+	method1();
+	
 }
 ```
 Examine the above code sample. Assuming an int is 4 bytes, how many bytes apart is the memory address for 
-the variable y in method1 and method2?
+the variable y in method1 and method2?  
+
+Answer: 4 bytes. Since the stack gets cleared after each function call int x is initialized in the same address that y in method2 was
+initialized in. This means that y in method1 will be initialized 4 bytes after int x. 
+
+
