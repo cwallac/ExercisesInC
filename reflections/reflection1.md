@@ -19,15 +19,15 @@ comprehendable than I initially expected.
 
 ###Headfirst C Excercises
 
-(Excercise 1)[https://github.com/cwallac/ExercisesInC/tree/master/exercises/ex01]
+[Excercise 1](https://github.com/cwallac/ExercisesInC/tree/master/exercises/ex01)
 
-(Excercise 2)[https://github.com/cwallac/ExercisesInC/tree/master/exercises/ex02])
+[Excercise 2](https://github.com/cwallac/ExercisesInC/tree/master/exercises/ex02)
 
-(Excercise 2.5)[https://github.com/cwallac/ExercisesInC/tree/master/exercises/ex02.5])
+[Excercise 2.5](https://github.com/cwallac/ExercisesInC/tree/master/exercises/ex02.5)
 
 ###ThinkOS Exercies
 
-(ThinkOS)[https://github.com/cwallac/ExercisesInC/tree/master/reading_questions/thinkos.md])
+[ThinkOS](https://github.com/cwallac/ExercisesInC/tree/master/reading_questions/thinkos.md])
 
 ###Exam Question
 ```
@@ -49,4 +49,5 @@ int main() {
 
 }
 ```
-Examine the above code sample. Assuming an int is 4 bytes, how many bytes apart is the variable y in method1 and method2
+Examine the above code sample. Assuming an int is 4 bytes, how many bytes apart is the memory address for 
+the variable y in method1 and method2?
