@@ -1,5 +1,5 @@
 main: main.o trout.o util.o trout.h util.h
-	gcc main.o trout.o util.o -o main
+	gcc main.o trout.o util.o -o main -Wall
 
 util.o: util.c util.h
 	gcc -c util.c -Wall

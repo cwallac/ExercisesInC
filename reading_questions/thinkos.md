@@ -150,19 +150,41 @@ There are 8 bytes between them.
 1) What abstractions do file systems provide?  Give an example of something that is logically 
 true about files systems but not true of their implementations.
 
+File systems allow users to not think og teh complexity of writing to a HDD or SSD. They can just assume
+data is located in "/Users/cwallace/" rather than what physical block of storage it is written to. One primary difference between file systems and their actual implemtations is that file systems act as if they are byte based. Their implementations are block based. 
+
 2) What information do you imagine is stored in an `OpenFileTableEntry`?
 
 3) What are some of the ways operating systems deal with the relatively slow performance of persistent storage?
+
+OSs do the following:
+
+- Block Transfers: It is only amrginally more expensive to load 8kb as obbosed to 1 byte. The OS will load larger blocks in hope that it will be needed.
+
+- Prefetching: OS loads blocks that are not explicitly called for but are likely to be used in the future
+
+- Buffering: System stores contents of what to write in a buffer that it writes at the end of the program. That way if the value changes several times it only needs to write once
+
+- Caching: Keep copies of recently used blocks in memory
 
 4) Suppose your program writes a file and prints a message indicating that it is done writing.  
 Then a power cut crashes your computer.  After you restore power and reboot the computer, you find that the 
 file you wrote is not there.  What happened?
 
+The data was not actually written. It was stored in a buffer waiting for other data so that it could write a larger block and function much more efficiently. 
+
 5) Can you think of one advantage of a File Allocation Table over a UNIX inode?  Or an advantage of a inode over a FAT?
+
+FAT has less overhead than inode. An inode based system has to store an indirection block for each file that stores pointers to other blocks of memory for the file to use, if the file is too large for one indirection block a secondary indirection block must be used. A FAT system just functions as a list list. If another block is needed for that file the last pointer in the list just changes to point at a new block of memory. 
 
 6) What is overhead?  What is fragmentation?
 
+Fragmentation: When some blocks are left unused or partially used
+Overhead: The amount of space the allocator needs to allocate blocks.
+
 7) Why is the "everything is a file" principle a good idea?  Why might it be a bad idea?
+
+This principle is a good idea because it allows programs to be more versatile. What works for a file should work for a network socket or a process pipe. However, it might make it so that people who are writing the programs to not understand the different performance implications associated with different implementations of "everything is a file"
 
 If you would like to learn more about file systems, a good next step is to learn about journaling file systems.  
 Start with [this Wikipedia article](https://en.wikipedia.org/wiki/Journaling_file_system), then 
