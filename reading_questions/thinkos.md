@@ -74,33 +74,41 @@ THe kernal is the part of the OS responsible for core capabilities
 
 ### Virtual memory
 
-1) The Georgian alphabet has 33 letters.  How many bit are needed to specify a letter?
+1) The Georgian alphabet has 33 letters.  How many bit are needed to specify a letter?  
+
 2^6. 
 
-2) In the UTF-16 character encoding, the binary representation of a character can take up to 32 bits.  
+2) In the UTF-16 character encoding, the binary representation of a character can take up to 32 bits.   
+
 Ignoring the details of the encoding scheme, how many different characters can be represented?
 4294967296
 
-3) What is the difference between "memory" and "storage" as defined in Think OS?
+3) What is the difference between "memory" and "storage" as defined in Think OS? 
+
 Storage refers to HDD space. Memory refers to RAM.
 
-4) What is the difference between a GiB and a GB?  What is the percentage difference in their sizes?
+4) What is the difference between a GiB and a GB?  What is the percentage difference in their sizes? 
+
 A GiB is a gibibyte which is 2^30 bytes. a GB is a gigbyte and is 10^9 bytes. x-bibytes always is a
 base 2.
 
-5) How does the virtual memory system help isolate processes from each other?
+5) How does the virtual memory system help isolate processes from each other? 
+
 Each process gets allocated its own chunk of physical memory. It can refer to these addresses by 
 virtual memory addresses. There are no virtual memory addresses that map to physical addresses of 
 the memory used by a different process so they can not interfere with each other.
 
-6) Why do you think the stack and the heap are usually located at opposite ends of the address space?
+6) Why do you think the stack and the heap are usually located at opposite ends of the address space? 
+
 The stack grows down and the heap grows up. Putting them at opposite ends allows the most memory to be 
 utilized by the program
 
-7) What Python data structure would you use to represent a sparse array?
+7) What Python data structure would you use to represent a sparse array? 
+
 dictionary
 
 8) What is a context switch?
+ 
 A context switch occurs when an OS interrupts a running process, pauses it and switches to 
 another process
 
@@ -120,26 +128,38 @@ Address of p is      0x     1c3b010
   
 1) Add a second call to `malloc` and check whether the heap on your system grows up (toward larger addresses). 
 
-Address of main is   0x   10ad8ae60
-Address of global is 0x   10ad8b020
-Address of local is  0x7fff54e75a68
-Address of p is      0x7f85fdc027f0
-Address of q is      0x7f85fdc02870
+Address of main is   0x   10ad8ae60 
+
+Address of global is 0x   10ad8b020 
+
+Address of local is  0x7fff54e75a68 
+
+Address of p is      0x7f85fdc027f0 
+
+Address of q is      0x7f85fdc02870 
+
 
 The heap is growing up towards larger address, q was allocated after p.
 
-2) Add a function that prints the address of a local variable, and check whether the stack grows down. 
-Address of main is 0x1059abe20
-Address of global is 0x1059ac020
-Address of local is 0x7fff5a254a68
-Address of local2 is 0x7fff5a254a64
-Address of p is 0x7fa6694027f0
-Address of q is 0x7fa669402870
+2) Add a function that prints the address of a local variable, and check whether the stack grows down.  
+
+Address of main is 0x1059abe20 
+
+Address of global is 0x1059ac020 
+
+Address of local is 0x7fff5a254a68 
+
+Address of local2 is 0x7fff5a254a64 
+
+Address of p is 0x7fa6694027f0 
+
+Address of q is 0x7fa669402870 
+
 
 The stack is growing down towards smaller numbers 
 
-3) Choose a random number between 1 and 32, and allocate two chunks with that size.  
-How much space is there between them?  Hint: Google knows how to subtract hexadecimal numbers.
+3) Choose a random number between 1 and 32, and allocate two chunks with that size.   How much space is there between them?  Hint: Google knows how to subtract hexadecimal numbers. 
+
 There are 8 bytes between them.
 
 ## Chapter 4
@@ -147,13 +167,14 @@ There are 8 bytes between them.
 
 ### Files and file systems
 
-1) What abstractions do file systems provide?  Give an example of something that is logically 
-true about files systems but not true of their implementations.
+1) What abstractions do file systems provide?  Give an example of something that is logically true about files systems but not true of their implementations.
 
 File systems allow users to not think og teh complexity of writing to a HDD or SSD. They can just assume
 data is located in "/Users/cwallace/" rather than what physical block of storage it is written to. One primary difference between file systems and their actual implemtations is that file systems act as if they are byte based. Their implementations are block based. 
 
-2) What information do you imagine is stored in an `OpenFileTableEntry`?
+2) What information do you imagine is stored in an `OpenFileTableEntry`? 
+
+I woud expect the openFileTableEntry to store how much of the file has presently been read.
 
 3) What are some of the ways operating systems deal with the relatively slow performance of persistent storage?
 
