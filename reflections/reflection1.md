@@ -54,4 +54,3 @@ the variable y in method1 and method2?
 Answer: 4 bytes. Since the stack gets cleared after each function call int x is initialized in the same address that y in method2 was
 initialized in. This means that y in method1 will be initialized 4 bytes after int x. 
 
-
