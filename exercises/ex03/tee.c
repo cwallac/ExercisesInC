@@ -1,8 +1,22 @@
+/**
+Author: Chris Wallace
+Personal implementation of the tee function.
+tee should output whatever the user inputs to standard out
+and any files that were provided as arguements.
+usage:  ./tee fileOne.txt fileTwo.txt will output user input to
+stdout, fileOne.txt and fileTwo.txt
+*/
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
+/**
+Main function to run tee from. 
+./tee [FLAG] one.txt two.txt will output stdin to stdout, one.txt and two.txt
+only supported flag is -a which if provided will append stdin to those files as 
+opposed to overwriting them.
+*/
 int main(int argc, char *argv[]) {
 	int APPEND_FLAG = 0;
 	int numFiles = 0;
@@ -29,7 +43,7 @@ int main(int argc, char *argv[]) {
   		numFiles -= 1;
   		argv += 1;
 
-  		//If append is 0 there was no -a flag passed in so all thigns passed in were files
+  		//If append is 0 there was no -a flag passed in so all things passed in were files
   		numFiles = argc - APPEND_FLAG;
   		
   		//Move pointer past first arg or not
