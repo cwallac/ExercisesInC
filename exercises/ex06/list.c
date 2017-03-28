@@ -54,8 +54,13 @@ void print_list(Node **list) {
  * returns: int or -1 if the list is empty
  */
 int pop(Node **list) {
+    Node *current = *list;
+    if (current == NULL) {
+        return -1;
+    }
+    *list = current->next;
     // FILL THIS IN!
-    return 0;
+    return current->val;
 }
 
 
@@ -66,7 +71,12 @@ int pop(Node **list) {
  */
 void push(Node **list, int val) {
     // FILL THIS IN!
+    Node *current = *list;
+    Node *newFirst = make_node(val, current);
+    *list = newFirst;
 }
+
+
 
 
 /* Removes the first element with the given value
@@ -80,6 +90,23 @@ void push(Node **list, int val) {
  */
 int remove_by_value(Node **list, int val) {
     // FILL THIS IN!
+    Node *current = *list;
+    if (current->val == val) {
+        *list = current->next;
+        free(current);
+        return 1;
+    }
+    while (current->next != NULL) {
+        if (current->next->val == val) {
+            //Need to remove this node, point current to next next
+            Node *afterNode = current->next->next;
+            free(current->next);
+            current->next = afterNode;
+            return 1;
+
+        }
+        current = current->next;
+    }
     return 0;
 }
 
@@ -91,7 +118,30 @@ int remove_by_value(Node **list, int val) {
  * list: pointer to pointer to Node
  */
 void reverse(Node **list) {
+    Node* previous = NULL;
+    Node* current = *list;
+    Node* next;
+
+    while (current != NULL)
+    {
+        next = current->next;  
+        current->next = previous;   
+        previous = current;
+        current = next;
+    }
+    *list = previous;
+
     // FILL THIS IN!
+}
+
+void extend( Node **front, Node **end) {
+ Node *current = *front;
+
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = *end;
+
 }
 
 
@@ -101,7 +151,14 @@ int main() {
     head->next->next = make_node(3, NULL);
     head->next->next->next = make_node(4, NULL);
 
+    Node *tail = make_node(1, NULL);
+    tail->next = make_node(2, NULL);
+    tail->next->next = make_node(3, NULL);
+    tail->next->next->next = make_node(4, NULL);
+
     Node **list = &head;
+    Node **back = &tail;
+    extend(list, back);
     print_list(list);
 
     int retval = pop(list);
@@ -118,4 +175,24 @@ int main() {
 
     reverse(list);
     print_list(list);
+}
+
+
+void printSorted(int *sortedArray, int size) {
+    int i;
+    int currentValue;
+    int lastValue = *sortedArray;
+    for (i = 1; i < size; i++) {
+        currentValue = *(sortedArray + i);
+        if (i == size - 1 && currentValue != lastValue) {
+            printf(" %i ", lastValue);
+            printf(" %i ", currentValue);
+        }
+        else if(currentValue != lastValue) {
+            printf(" %i ", lastValue);
+        } else {
+            
+        }
+        lastValue = currentValue;
+    }
 }
