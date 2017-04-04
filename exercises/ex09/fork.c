@@ -12,12 +12,13 @@ License: MIT License https://opensource.org/licenses/MIT
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <wait.h>
+#include <sys/wait.h>
 
 
 // errno is an external global variable that contains
 // error information
 extern int errno;
+static int globs = 0;
 
 
 // get_seconds returns the number of seconds since the
@@ -32,7 +33,7 @@ double get_seconds() {
 
 void child_code(int i) 
 {
-    sleep(i);
+    //sleep(i);
     printf("Hello from child %d.\n", i);
     exit(i);
 }
@@ -43,6 +44,8 @@ void child_code(int i)
 int main(int argc, char *argv[])
 {
     int status;
+    int stackTest = 0;
+
     pid_t pid;
     double start, stop;
     int i, num_children;
@@ -54,6 +57,8 @@ int main(int argc, char *argv[])
     } else {
       num_children = 1;
     }
+
+
     
     // get the start time
     start = get_seconds();
@@ -63,6 +68,7 @@ int main(int argc, char *argv[])
         // create a child process
         printf("Creating child %d.\n", i);
 	pid = fork();
+
       
 	/* check for an error */
 	if (pid == -1) {
@@ -70,11 +76,17 @@ int main(int argc, char *argv[])
 	    perror(argv[0]);
 	    exit(1);
 	}
+
+    
       
 	/* see if we're the parent or the child */
 	if (pid == 0) {
+        globs = 99;
+        printf("Child value %08x \n" , &globs);
 	  child_code(i);
 	}
+
+
     }
     
     /* parent continues */
@@ -82,6 +94,7 @@ int main(int argc, char *argv[])
     
     for (i=0; i<num_children; i++) {
         pid = wait(&status);
+        printf("Parent Value %08x \n", &globs);
       
 	if (pid == -1) {
 	    fprintf(stderr, "wait failed: %s\n", strerror(errno));
