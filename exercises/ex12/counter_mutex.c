@@ -55,10 +55,19 @@ typedef sem_t Semaphore;
  */
 Semaphore *make_semaphore (int n)
 {
-    Semaphore *sem = check_malloc (sizeof(Semaphore));
-    int ret = sem_init(sem, 0, n);
-    if (ret == -1) perror_exit ("sem_init failed");
-    return sem;
+    //Named semaphores are kernal persistent, so the reason this
+    //Wasn't working for me was because I already initialized
+    //This semaphore and its value would be 0 and not 1 like
+    //I expected. 
+    sem_unlink("/mysemaphore");
+    //sem_init doesn't work on Mac OS. Need to open with a name
+    //Params: name, create if doesn't exist falg, permissions, initial value
+    Semaphore *sem = sem_open("/mysemaphore", O_CREAT, 0666, 1);
+    if (sem == SEM_FAILED) {
+        perror("semaphore initilization");
+        exit(1);
+      }
+return sem;
 }
 
 /*  sem_signal
@@ -80,6 +89,7 @@ typedef struct {
     int counter;
     int end;
     int *array;
+    Semaphore *semaphore;
 } Shared;
 
 /*  make_shared
@@ -94,6 +104,8 @@ Shared *make_shared (int end)
 {
     int i;
     Shared *shared = check_malloc (sizeof (Shared));
+    Semaphore *semaphore = make_semaphore(1);
+    shared->semaphore = semaphore;
 
     shared->counter = 0;
     shared->end = end;
@@ -157,7 +169,9 @@ void child_code (Shared *shared)
     //printf ("Starting child at counter %d\n", shared->counter);
 
     while (1) {
+        sem_wait(shared->semaphore);
 	    if (shared->counter >= shared->end) {
+            sem_signal(shared->semaphore);
 	        return;
 	    }
 	    shared->array[shared->counter]++;
@@ -166,6 +180,7 @@ void child_code (Shared *shared)
 	    if (shared->counter % 100000 == 0) {
 	        //printf ("%d\n", shared->counter);
 	    }
+        sem_signal(shared->semaphore);
     }
 }
 
