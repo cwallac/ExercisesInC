@@ -72,6 +72,7 @@ void incr (GHashTable* hash, gchar *key)
 	g_hash_table_insert (hash, key, val1);
     } else {
 	*val += 1;
+    g_free(key);
     }
 }
 
@@ -96,7 +97,7 @@ int main (int argc, char** argv)
        (one-L) NUL terminated strings */
     gchar **array;
     gchar line[128];
-    GHashTable* hash = g_hash_table_new (g_str_hash, g_str_equal);
+    GHashTable* hash = g_hash_table_new_full (g_str_hash, g_str_equal, free, free);
     int i;
 
     // read lines from the file and build the hash table
@@ -106,8 +107,10 @@ int main (int argc, char** argv)
 
 	array = g_strsplit(line, " ", 0);
 	for (i=0; array[i] != NULL; i++) {
-	    incr(hash, array[i]);
+	    incr(hash, g_strdup(array[i]));
 	}
+
+    g_strfreev(array);
     }
     fclose (fp);
 
@@ -115,7 +118,7 @@ int main (int argc, char** argv)
     // g_hash_table_foreach (hash,  (GHFunc) printor, "Word %s freq %d\n");
 
     // iterate the hash table and build the sequence
-    GSequence *seq = g_sequence_new (NULL);
+    GSequence *seq = g_sequence_new (free);
     g_hash_table_foreach (hash,  (GHFunc) accumulator, (gpointer) seq);
 
     // iterate the sequence and print the pairs

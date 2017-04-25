@@ -22,6 +22,15 @@ Node *make_node(int val, Node *next) {
     return node;
 }
 
+void freeList(Node **list) {
+    Node *current = *list;
+    while (current != NULL) {
+        Node *prev = current;
+        current = prev->next;
+        free(prev);
+    }
+}
+
 void print_list(Node *head) {
     Node *current = head;
 
@@ -41,6 +50,7 @@ int pop(Node **head) {
 
     next_node = (*head)->next;
     retval = (*head)->val;
+    free(*head);
     *head = next_node;
 
     return retval;
@@ -151,6 +161,7 @@ int main() {
 
     printf("test_list\n");
     print_list(test_list);
+    freeList(&test_list);
 
     // make an empty list
     printf("empty\n");
@@ -159,9 +170,10 @@ int main() {
     // add an element to the empty list
     insert_by_index(&empty, 1, 0);
     print_list(empty);
+    freeList(&empty);
 
     Node *something = make_something();
-    free(something);
+    freeList(&something);
 
     return 0;
 }
